@@ -2,14 +2,15 @@
 //  PSXLoader.h
 //  PSX
 //
-//  Created by Dan on 2016/12/11.
+//  Created by Makigumo on 2016/12/11.
 //    Copyright © 2016年 Makigumo. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <Hopper/Hopper.h>
 
-#define HEADER_MAGIC "PS-X EXE"
+const char *const HEADER_MAGIC_PSX = "PS-X EXE";
+const char *const HEADER_MAGIC_SCE = "SCE EXE";
 
 typedef struct PSX_HEADER_PSX {
     char id[8];

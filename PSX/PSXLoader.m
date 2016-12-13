@@ -2,7 +2,7 @@
 //  PSXLoader.m
 //  PSX
 //
-//  Created by Dan on 2016/12/11.
+//  Created by Makigumo on 2016/12/11.
 //    Copyright © 2016年 Makigumo. All rights reserved.
 //
 
@@ -60,8 +60,8 @@
     if ([data length] < 4) return @[];
 
     const void *bytes = [data bytes];
-    if (strncmp((const char *) bytes, "PS-X EXE", 8) == 0 ||
-            strncmp((const char *) bytes, "SCE EXE", 7) == 0) {
+    if (strncmp((const char *) bytes, HEADER_MAGIC_PSX, 8) == 0 ||
+            strncmp((const char *) bytes, HEADER_MAGIC_SCE, 7) == 0) {
         NSObject <HPDetectedFileType> *type = [_services detectedType];
         [type setFileDescription:@"PSX Executable"];
         [type setAddressWidth:AW_32bits];
@@ -81,7 +81,7 @@
                       usingCallback:(FileLoadingCallbackInfo)callback {
     const void *bytes = [data bytes];
     const PsxHeader *header = (PsxHeader *) bytes;
-    if (strncmp((const char *) header->psx.id, "PS-X EXE", 8) == 0) {
+    if (strncmp((const char *) header->psx.id, HEADER_MAGIC_PSX, 8) == 0) {
 
         [_services logMessage:[NSString stringWithFormat:@"Creating section of %u bytes at [0x%x;0x%x[",
                                                          header->psx.t_size, header->psx.t_addr, header->psx.t_addr + header->psx.t_size]];
@@ -104,7 +104,61 @@
         section.fileLength = header->psx.t_size;
 
         [file addEntryPoint:header->psx.pc0];
-    } else if (strncmp((const char *) header->psx.id, "SCE EXE", 7) == 0) {
+    } else if (strncmp((const char *) header->psx.id, HEADER_MAGIC_SCE, 7) == 0) {
+
+        // create .TEXT
+        //
+        [_services logMessage:[NSString stringWithFormat:@"Creating section of %u bytes at [0x%x;0x%x[",
+                                                         header->sce.t_size, header->sce.t_addr, header->sce.t_addr + header->sce.t_size]];
+
+        NSObject <HPSegment> *textSegment = [file addSegmentAt:header->sce.t_addr size:header->sce.t_size];
+        NSObject <HPSection> *textSection = [textSegment addSectionAt:header->sce.t_addr size:header->sce.t_size];
+
+        textSegment.segmentName = @"TEXT";
+        textSection.sectionName = @"text";
+        textSection.pureCodeSection = YES;
+
+        NSString *textComment = [NSString stringWithFormat:@"\n\nSection %@\n\n", textSegment.segmentName];
+        [file setComment:textComment atVirtualAddress:header->sce.t_addr reason:CCReason_Automatic];
+
+        // data starts at 0x800
+        NSData *segmentData = [NSData dataWithBytes:bytes + 0x800 length:header->sce.t_size];
+
+        textSegment.mappedData = segmentData;
+        textSection.fileOffset = 0x800;
+        textSection.fileLength = header->sce.t_size;
+
+
+        // create .DATA
+        //
+        NSObject <HPSegment> *dataSegment = [file addSegmentAt:header->sce.d_addr size:header->sce.d_size];
+        NSObject <HPSection> *dataSection = [dataSegment addSectionAt:header->sce.d_addr size:header->sce.d_size];
+
+        dataSegment.segmentName = @"DATA";
+        dataSection.sectionName = @"data";
+        dataSection.pureDataSection = YES;
+
+        NSString *dataComment = [NSString stringWithFormat:@"\n\nSection %@\n\n", dataSegment.segmentName];
+        [file setComment:dataComment atVirtualAddress:header->sce.t_addr reason:CCReason_Automatic];
+
+        dataSection.fileOffset = 0x800 + header->sce.d_addr;
+        dataSection.fileLength = header->sce.d_size;
+
+
+        // create .BSS
+        //
+        NSObject <HPSegment> *bssSegment = [file addSegmentAt:header->sce.b_addr size:header->sce.b_size];
+        NSObject <HPSection> *bssSection = [bssSegment addSectionAt:header->sce.b_addr size:header->sce.b_size];
+
+        bssSegment.segmentName = @"BSS";
+        bssSection.sectionName = @"bss";
+        bssSection.pureDataSection = YES;
+
+        NSString *bssComment = [NSString stringWithFormat:@"\n\nSection %@\n\n", bssSegment.segmentName];
+        [file setComment:bssComment atVirtualAddress:header->sce.b_addr reason:CCReason_Automatic];
+
+        bssSection.fileOffset = 0x800 + header->sce.b_addr;
+        bssSection.fileLength = header->sce.b_size;
 
         [file addEntryPoint:header->sce.pc0];
     } else {
