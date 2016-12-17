@@ -91,7 +91,7 @@
 
         segment.segmentName = @"TEXT";
         section.sectionName = @"text";
-        section.pureCodeSection = YES;
+        section.containsCode = YES;
 
         NSString *comment = [NSString stringWithFormat:@"\n\nSection %@\n\n", segment.segmentName];
         [file setComment:comment atVirtualAddress:header->psx.t_addr reason:CCReason_Automatic];
@@ -104,6 +104,27 @@
         section.fileLength = header->psx.t_size;
 
         [file addEntryPoint:header->psx.pc0];
+
+        [_services logMessage:@"Searching PSX bios calls"];
+        int bios_calls_found = 0;
+        for (int i = 0; i < sizeof(bios_calls); i++) {
+            struct bioscall bc = bios_calls[i];
+            // li t2, adr; jr t2; li t1, val
+            uint8_t bytes_to_find[] = {bc.adr, 0x00, 0x0a, 0x24, 0x08, 0x00, 0x40, 0x01, bc.val, 0x00, 0x09, 0x24};
+            NSData *dataToFind = [NSData dataWithBytes:bytes_to_find
+                                                length:sizeof(bytes_to_find)];
+            NSRange range = [segmentData rangeOfData:dataToFind
+                                             options:0
+                                               range:NSMakeRange(0, [segmentData length])];
+            if (range.location != NSNotFound) {
+                //[_services logMessage:[NSString stringWithFormat:@"%s at %0x", bc.name, (unsigned int) range.location]];
+                [file setName:@(bc.name) forVirtualAddress:segment.startAddress + range.location reason:NCReason_Metadata];
+                [file addPotentialProcedure:segment.startAddress + range.location];
+                bios_calls_found++;
+            }
+        }
+        [_services logMessage:[NSString stringWithFormat:@"%d PSX bios calls found", bios_calls_found]];
+
     } else if (strncmp((const char *) header->psx.id, HEADER_MAGIC_SCE, 7) == 0) {
 
         // create .TEXT
