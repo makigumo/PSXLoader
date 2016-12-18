@@ -119,9 +119,10 @@
                                                range:NSMakeRange(0, [segmentData length])];
             if (range.location != NSNotFound) {
                 //[_services logMessage:[NSString stringWithFormat:@"%s at %0x", bc.name, (unsigned int) range.location]];
-                [file setName:@(bc.name) forVirtualAddress:segment.startAddress + range.location reason:NCReason_Metadata];
-                [file addPotentialProcedure:segment.startAddress + range.location];
-                [file addTag:biosTag at:segment.startAddress + range.location];
+                Address address = segment.startAddress + range.location;
+                [file setName:@(bc.name) forVirtualAddress:address reason:NCReason_Metadata];
+                [file addPotentialProcedure:address];
+                [file addTag:biosTag at:address];
                 bios_calls_found++;
             }
         }
