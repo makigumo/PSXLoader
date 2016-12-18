@@ -106,6 +106,7 @@
         [file addEntryPoint:header->psx.pc0];
 
         [_services logMessage:@"Searching PSX bios calls"];
+        NSObject <HPTag> *biosTag = [file buildTag:@"BIOS function"];
         int bios_calls_found = 0;
         for (int i = 0; i < sizeof(bios_calls); i++) {
             struct bioscall bc = bios_calls[i];
@@ -120,6 +121,7 @@
                 //[_services logMessage:[NSString stringWithFormat:@"%s at %0x", bc.name, (unsigned int) range.location]];
                 [file setName:@(bc.name) forVirtualAddress:segment.startAddress + range.location reason:NCReason_Metadata];
                 [file addPotentialProcedure:segment.startAddress + range.location];
+                [file addTag:biosTag at:segment.startAddress + range.location];
                 bios_calls_found++;
             }
         }
