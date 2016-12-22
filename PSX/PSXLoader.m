@@ -47,17 +47,13 @@
     return @"0.0.1";
 }
 
-- (CPUEndianess)endianess {
-    return CPUEndianess_Little;
-}
-
 - (BOOL)canLoadDebugFiles {
     return NO;
 }
 
 // Returns an array of DetectedFileType objects.
-- (NSArray<DetectedFileType *> *)detectedTypesForData:(NSData *)data {
-    if ([data length] < 4) return @[];
+- (NSArray <HPDetectedFileType> *)detectedTypesForData:(NSData *)data {
+    if ([data length] < 4) return (NSArray <HPDetectedFileType> *) @[];
 
     const void *bytes = [data bytes];
     if (strncmp((const char *) bytes, HEADER_MAGIC_PSX, 8) == 0 ||
@@ -68,14 +64,14 @@
         [type setCpuFamily:@"mips"];
         [type setCpuSubFamily:@"mips32"];
         [type setShortDescriptionString:@"psx_exe"];
-        return @[type];
+        return (NSArray <HPDetectedFileType> *) @[type];
     }
 
-    return @[];
+    return (NSArray <HPDetectedFileType> *) @[];
 }
 
 - (FileLoaderLoadingStatus)loadData:(NSData *)data
-              usingDetectedFileType:(DetectedFileType *)fileType
+              usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
                             options:(FileLoaderOptions)options
                             forFile:(NSObject <HPDisassembledFile> *)file
                       usingCallback:(FileLoadingCallbackInfo)callback {
