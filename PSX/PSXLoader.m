@@ -64,6 +64,7 @@
         [type setCpuFamily:@"mips"];
         [type setCpuSubFamily:@"mips32"];
         [type setShortDescriptionString:@"psx_exe"];
+        type.additionalParameters = @[[_services cpuComponentWithLabel:@"CPU"]];
         return (NSArray <HPDetectedFileType> *) @[type];
     }
 
@@ -185,8 +186,8 @@
         return DIS_BadFormat;
     }
 
-    file.cpuFamily = @"mips";
-    file.cpuSubFamily = @"mips32";
+    file.cpuFamily = ((NSObject <HPLoaderOptionComponents> *) fileType.additionalParameters[0]).cpuFamily;
+    file.cpuSubFamily = ((NSObject <HPLoaderOptionComponents> *) fileType.additionalParameters[0]).cpuSubFamily;
     [file setAddressSpaceWidthInBits:32];
 
 
