@@ -79,7 +79,7 @@
     const void *bytes = [data bytes];
     const PsxHeader *header = (PsxHeader *) bytes;
     if (strncmp((const char *) header->psx.id, HEADER_MAGIC_PSX, 8) == 0) {
-
+        callback(@"Creating segments", 0.3);
         [_services logMessage:[NSString stringWithFormat:@"Creating section of %u bytes at [0x%x;0x%x[",
                                                          header->psx.t_size, header->psx.t_addr, header->psx.t_addr + header->psx.t_size]];
 
@@ -102,6 +102,7 @@
 
         [file addEntryPoint:header->psx.pc0];
 
+        callback(@"Naming BIOS calls", 0.6);
         [_services logMessage:@"Searching PSX bios calls"];
         NSObject <HPTag> *biosTag = [file buildTag:@"BIOS function"];
         int bios_calls_found = 0;
@@ -184,6 +185,25 @@
         [file addEntryPoint:header->sce.pc0];
     } else {
         return DIS_BadFormat;
+    }
+
+    // create I/O Map
+    callback(@"Naming I/O map", 0.9);
+    NSObject <HPSegment> *ioSegment = [file addSegmentAt:0x1F000000 size:0x1FC80000];
+    ioSegment.segmentName = @"IO";
+
+    NSObject <HPSection> *ioSection = [ioSegment addSectionAt:0x1F000000 size:0x1FC80000];
+    ioSection.sectionName = @"io";
+    ioSection.pureDataSection = YES;
+    ioSection.containsCode = NO;
+
+    NSObject <HPTag> *ioTag = [file buildTag:@"IO space"];
+    for (int i = 0; i < sizeof(iomap) / sizeof(struct iomap_entry); i++) {
+        struct iomap_entry iomapEntry = iomap[i];
+        const char *const string = iomapEntry.name;
+        [file setName:@(string) forVirtualAddress:iomapEntry.address reason:NCReason_Metadata];
+        [file setType:Type_Data atVirtualAddress:iomapEntry.address forLength:iomapEntry.length];
+        [file addTag:ioTag at:iomapEntry.address];
     }
 
     file.cpuFamily = ((NSObject <HPLoaderOptionComponents> *) fileType.additionalParameters[0]).cpuFamily;

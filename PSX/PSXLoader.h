@@ -68,7 +68,7 @@ typedef struct bioscall {
 } BIOS_CALL;
 
 // source: http://problemkaputt.de/psx-spx.htm#biosfunctionsummary
-struct bioscall bios_calls[] = {
+const struct bioscall bios_calls[] = {
         {0xa0, 0x00, "open"},
         {0xa0, 0x01, "lseek"},
         {0xa0, 0x02, "read"},
@@ -366,6 +366,59 @@ struct bioscall bios_calls[] = {
         {0xc0, 0x1b, "KernelRedirect"},
         {0xc0, 0x1c, "AdjustA0Table"},
         {0xc0, 0x1d, "get_card_find_mode"},
+};
+
+struct iomap_entry {
+    const char *const name;
+    const uint32_t address;
+    const uint32_t length;
+};
+
+const struct iomap_entry iomap[] = {
+        {"Expansion Region 1", 0x1F000000, 0x80000},
+        {"Scratchpad", 0x1F800000, 0x400},
+        {"Expansion 1 Base_Address", 0x1F801000, 0x4},
+        {"Expansion 2 Base_Address", 0x1F801004, 0x4},
+        {"Expansion 1 Delay_Size", 0x1F801008, 0x4},
+        {"Expansion 3 Delay_Size", 0x1F80100c, 0x4},
+        {"BIOS ROM", 0x1F801010, 0x4},
+        {"SPU_DELAY", 0x1F801014, 0x4},
+        {"CDROM_DELAY", 0x1F801018, 0x4},
+        {"Expansion 2 Delay_Size", 0x1F80101c, 0x4},
+        {"COM_DELAY/COMMON_DELAY", 0x1F801020, 0x4},
+
+        {"JOY_DATA", 0x1F801040, 0x4},
+        {"JOY_STAT", 0x1F801044, 0x4},
+        {"JOY_MODE", 0x1F801048, 0x2},
+        {"JOY_CTRL", 0x1F80104A, 0x2},
+        {"JOY_BAUD", 0x1F80104E, 0x2},
+        {"SIO_DATA", 0x1F801050, 0x4},
+        {"SIO_STAT", 0x1F801054, 0x4},
+        {"SIO_MODE", 0x1F801058, 0x2},
+        {"SIO_CTRL", 0x1F80105A, 0x2},
+        {"SIO_MISC", 0x1F80105C, 0x2},
+        {"SIO_BAUD", 0x1F80105E, 0x2},
+
+        {"RAM_SIZE", 0x1F801060, 0x4},
+
+        {"I_STAT", 0x1F801070, 0x2},
+        {"I_MASK", 0x1F801072, 0x2},
+
+        {"DMA0 MDECin", 0x1F801080, 0xf},
+        {"DMA1 MDECout", 0x1F801090, 0xf},
+        {"DMA2 GPU", 0x1F8010A0, 0xf},
+        {"DMA3 CDROM", 0x1F8010B0, 0xf},
+        {"DMA4 SPU", 0x1F8010C0, 0xf},
+        {"DMA5 SPIO", 0x1F8010D0, 0xf},
+        {"DMA6 OTC", 0x1F8010E0, 0xf},
+        {"DPCR", 0x1F8010F0, 0x4},
+        {"DICR", 0x1F8010F4, 0x4},
+
+        {"Timer 0 Dotclock", 0x1F801100, 0xf},
+        {"Timer 1 Horizontal retrace", 0x1F801110, 0xf},
+        {"Timer 2 1/8 system clock", 0x1F801120, 0xf},
+
+
 };
 
 @interface PSXLoader : NSObject <FileLoader>
