@@ -62,8 +62,8 @@ typedef struct {
 } PsxHeader;
 
 typedef struct bioscall {
-    uint8_t adr;
-    uint8_t val;
+    const uint8_t adr;
+    const uint8_t val;
     const char *const name;
 } BIOS_CALL;
 

@@ -105,7 +105,7 @@
         [_services logMessage:@"Searching PSX bios calls"];
         NSObject <HPTag> *biosTag = [file buildTag:@"BIOS function"];
         int bios_calls_found = 0;
-        for (int i = 0; i < sizeof(bios_calls); i++) {
+        for (int i = 0; i < sizeof(bios_calls) / sizeof(struct bioscall); i++) {
             struct bioscall bc = bios_calls[i];
             // li t2, adr; jr t2; li t1, val
             uint8_t bytes_to_find[] = {bc.adr, 0x00, 0x0a, 0x24, 0x08, 0x00, 0x40, 0x01, bc.val, 0x00, 0x09, 0x24};
