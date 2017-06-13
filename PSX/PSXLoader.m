@@ -40,11 +40,11 @@
 }
 
 - (NSString *)pluginCopyright {
-    return @"©2016 - Makigumo";
+    return @"©2016-2017 - Makigumo";
 }
 
 - (NSString *)pluginVersion {
-    return @"0.0.1";
+    return @"0.0.2";
 }
 
 - (BOOL)canLoadDebugFiles {

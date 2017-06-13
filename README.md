@@ -1,6 +1,7 @@
 # A PSX Loader plugin for Hopper Disassembler
 
-A very basic loader plugin with room for improvement.
+A basic loader plugin for PSX executables.
+It will try to identify bios calls and add some io mapping information.
 
 ## Requirements
 
