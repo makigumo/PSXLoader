@@ -40,12 +40,17 @@
 }
 
 - (NSString *)pluginCopyright {
-    return @"©2016-2017 - Makigumo";
+    return @"©2016-2018 - Makigumo";
 }
 
 - (NSString *)pluginVersion {
     return @"0.0.2";
 }
+
+- (NSString *)commandLineIdentifier {
+    return @"psx";
+}
+
 
 - (BOOL)canLoadDebugFiles {
     return NO;
