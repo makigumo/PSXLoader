@@ -19,6 +19,10 @@
     return self;
 }
 
++ (int)sdkVersion {
+    return HOPPER_CURRENT_SDK_VERSION;
+}
+
 - (HopperUUID *)pluginUUID {
     return [_services UUIDWithString:@"4F15DEFF-1B73-4538-8579-ABD75456F899"];
 }
