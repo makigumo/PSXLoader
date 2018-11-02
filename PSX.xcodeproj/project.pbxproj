@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		183913410E42E8A6E6F26ACA /* Info-gnustep.plist.in in Resources */ = {isa = PBXBuildFile; fileRef = 183916F959277957CE9CC032 /* Info-gnustep.plist.in */; };
+		18391364630FDE0E8D599C7E /* Info.plist.in in Resources */ = {isa = PBXBuildFile; fileRef = 183913A65608E57242590AC2 /* Info.plist.in */; };
 		37273DB31DFDFD4C00FD6A63 /* PSXLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 37273DB21DFDFD4C00FD6A63 /* PSXLoader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		183913A65608E57242590AC2 /* Info.plist.in */ = {isa = PBXFileReference; lastKnownFileType = file.in; path = Info.plist.in; sourceTree = "<group>"; };
+		183916F959277957CE9CC032 /* Info-gnustep.plist.in */ = {isa = PBXFileReference; lastKnownFileType = file.in; path = "Info-gnustep.plist.in"; sourceTree = "<group>"; };
 		37273DAE1DFDFD4C00FD6A63 /* PSX.hopperLoader */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSX.hopperLoader; sourceTree = BUILT_PRODUCTS_DIR; };
 		37273DB11DFDFD4C00FD6A63 /* PSXLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSXLoader.h; sourceTree = "<group>"; };
 		37273DB21DFDFD4C00FD6A63 /* PSXLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSXLoader.m; sourceTree = "<group>"; };
@@ -33,6 +37,8 @@
 			children = (
 				37273DB01DFDFD4C00FD6A63 /* PSX */,
 				37273DAF1DFDFD4C00FD6A63 /* Products */,
+				183916F959277957CE9CC032 /* Info-gnustep.plist.in */,
+				183913A65608E57242590AC2 /* Info.plist.in */,
 			);
 			sourceTree = "<group>";
 		};
@@ -112,6 +118,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				183913410E42E8A6E6F26ACA /* Info-gnustep.plist.in in Resources */,
+				18391364630FDE0E8D599C7E /* Info.plist.in in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
