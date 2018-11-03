@@ -6,7 +6,6 @@ branches:
 
 before_install:
   - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update || true; fi
-  - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew upgrade || true; fi
   - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     gem install xcpretty;
     gem install xcpretty-travis-formatter;
