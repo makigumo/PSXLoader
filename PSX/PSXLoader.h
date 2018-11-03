@@ -11,7 +11,7 @@
 
 #ifdef __linux__
 
-@implementation NSData (NSData)
+@interface NSData (NSData)
 
 - (NSRange)rangeOfData:(NSData *)aData
                options:(NSUInteger)mask
