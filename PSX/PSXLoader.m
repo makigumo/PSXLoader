@@ -236,3 +236,69 @@
 }
 
 @end
+
+#ifdef __linux__
+
+@implementation NSData (NSData)
+
+- (NSRange)rangeOfData:(NSData *)aData
+               options:(NSUInteger)mask
+                 range:(NSRange)aRange {
+
+    NSRange range = NSMakeRange(NSNotFound, 0);
+    if (aData) {
+        const NSUInteger aDataLength = [aData length];
+        const NSUInteger selfLength = [self length];
+        if (aRange.location + aRange.length > selfLength) {
+            [NSException raise:NSInvalidArgumentException
+                        format:@"Bad Range (%"PRIuPTR",%"PRIuPTR") for length %lu",
+                               aRange.location, aRange.length, selfLength];
+        } else if (aDataLength > 0) {
+            const BOOL reverse = ((mask & NSBackwardsSearch) == NSBackwardsSearch);
+            const BOOL anchored = ((mask & NSAnchoredSearch) == NSAnchoredSearch);
+            const void *selfBytes = [self bytes];
+            const void *aDataBytes = [aData bytes];
+            if (anchored) {
+                if (aDataLength <= aRange.length) {
+                    if (reverse) {
+                        if (memcmp(selfBytes + aRange.location - aDataLength, aDataBytes, aDataLength) == 0) {
+                            range = NSMakeRange(selfLength - aDataLength, aDataLength);
+                        };
+                    } else {
+                        if (memcmp(selfBytes + aRange.location, aDataBytes, aDataLength)) {
+                            range = NSMakeRange(0, aDataLength);
+                        };
+                    };
+                };
+            } else {
+                if (reverse) {
+                    const NSUInteger first = (aRange.location + aDataLength);
+                    for (NSUInteger i = aRange.location + aRange.length - 1; i >= first && range.length == 0; i--) {
+                        if (((unsigned char *) selfBytes)[i] == ((unsigned char *) aDataBytes)[aDataLength - 1]) {
+                            if (memcmp(selfBytes + i - aDataLength, aDataBytes, aDataLength) == 0) {
+                                range = NSMakeRange(i - aDataLength, aDataLength);
+                            };
+                        };
+                    };
+                } else {
+                    const NSUInteger last = aRange.location + aRange.length - aDataLength;
+                    for (NSUInteger i = aRange.location; i <= last && range.length == 0; i++) {
+                        if (((unsigned char *) selfBytes)[i] == ((unsigned char *) aDataBytes)[0]) {
+                            if (memcmp(selfBytes + i, aDataBytes, aDataLength) == 0) {
+                                range = NSMakeRange(i, aDataLength);
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    } else {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"nil data"];
+    }
+    return range;
+}
+
+@end
+
+#endif

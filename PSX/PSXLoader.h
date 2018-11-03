@@ -9,6 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <Hopper/Hopper.h>
 
+#ifdef __linux__
+
+@implementation NSData (NSData)
+
+- (NSRange)rangeOfData:(NSData *)aData
+               options:(NSUInteger)mask
+                 range:(NSRange)aRange;
+
+@end
+
+#endif
+
 const char *const HEADER_MAGIC_PSX = "PS-X EXE";
 const char *const HEADER_MAGIC_SCE = "SCE EXE";
 
