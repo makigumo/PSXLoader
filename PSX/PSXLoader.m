@@ -70,7 +70,7 @@
         NSObject <HPDetectedFileType> *type = [_services detectedType];
         [type setFileDescription:@"PSX Executable"];
         [type setAddressWidth:AW_32bits];
-        [type setCpuFamily:@"mips"];
+        [type setCpuFamily:@"mipsel"];
         [type setCpuSubFamily:@"mips32"];
         [type setShortDescriptionString:@"psx_exe"];
         type.additionalParameters = @[[_services cpuComponentWithLabel:@"CPU"]];
@@ -234,6 +234,7 @@
 - (NSData *)extractFromData:(NSData *)data usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType returnAdjustOffset:(uint64_t *)adjustOffset {
     return nil;
 }
+
 
 @end
 
