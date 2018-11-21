@@ -48,7 +48,7 @@
 }
 
 - (NSString *)pluginVersion {
-    return @"0.0.2";
+    return @"0.0.3";
 }
 
 - (NSString *)commandLineIdentifier {
@@ -61,7 +61,8 @@
 }
 
 // Returns an array of DetectedFileType objects.
-- (NSArray <HPDetectedFileType> *)detectedTypesForData:(NSData *)data {
+- (NSArray <HPDetectedFileType> *)detectedTypesForData:(NSData *)data
+                                           ofFileNamed:(NSString *)filename {
     if ([data length] < 4) return (NSArray <HPDetectedFileType> *) @[];
 
     const void *bytes = [data bytes];
@@ -217,8 +218,8 @@
 
     file.cpuFamily = ((NSObject <HPLoaderOptionComponents> *) fileType.additionalParameters[0]).cpuFamily;
     file.cpuSubFamily = ((NSObject <HPLoaderOptionComponents> *) fileType.additionalParameters[0]).cpuSubFamily;
-    [file setAddressSpaceWidthInBits:32];
-
+    file.addressSpaceWidthInBits = 32;
+    file.integerWidthInBits = 32;
 
     return DIS_OK;
 }
@@ -231,7 +232,10 @@
     return DIS_NotSupported;
 }
 
-- (NSData *)extractFromData:(NSData *)data usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType returnAdjustOffset:(uint64_t *)adjustOffset {
+- (NSData *)extractFromData:(NSData *)data
+      usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
+         returnAdjustOffset:(uint64_t *)adjustOffset
+       returnAdjustFilename:(NSString *__autoreleasing *)newFilename {
     return nil;
 }
 
