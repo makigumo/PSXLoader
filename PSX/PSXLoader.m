@@ -23,7 +23,7 @@
     return HOPPER_CURRENT_SDK_VERSION;
 }
 
-- (HopperUUID *)pluginUUID {
+- (NSObject <HPHopperUUID> *)pluginUUID {
     return [_services UUIDWithString:@"4F15DEFF-1B73-4538-8579-ABD75456F899"];
 }
 
@@ -235,7 +235,7 @@
 - (NSData *)extractFromData:(NSData *)data
       usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
          returnAdjustOffset:(uint64_t *)adjustOffset
-       returnAdjustFilename:(NSString *__autoreleasing *)newFilename {
+       returnAdjustFilename:(NSString **)newFilename {
     return nil;
 }
 
