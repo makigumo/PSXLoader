@@ -44,15 +44,15 @@
 }
 
 - (NSString *)pluginCopyright {
-    return @"©2016-2018 - Makigumo";
+    return @"©2016-2019 - Makigumo";
 }
 
 - (NSString *)pluginVersion {
     return @"0.0.3";
 }
 
-- (NSString *)commandLineIdentifier {
-    return @"psx";
+- (nonnull NSArray<NSString *> *)commandLineIdentifiers {
+    return @[@"psx"];
 }
 
 

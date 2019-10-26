@@ -9,11 +9,13 @@
 /* Begin PBXBuildFile section */
 		183913410E42E8A6E6F26ACA /* Info-gnustep.plist.in in Resources */ = {isa = PBXBuildFile; fileRef = 183916F959277957CE9CC032 /* Info-gnustep.plist.in */; };
 		18391364630FDE0E8D599C7E /* Info.plist.in in Resources */ = {isa = PBXBuildFile; fileRef = 183913A65608E57242590AC2 /* Info.plist.in */; };
+		18391B9924A156C4C7023766 /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 183916AF9253C77F4752758D /* .travis.yml */; };
 		37273DB31DFDFD4C00FD6A63 /* PSXLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 37273DB21DFDFD4C00FD6A63 /* PSXLoader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		183913A65608E57242590AC2 /* Info.plist.in */ = {isa = PBXFileReference; lastKnownFileType = file.in; path = Info.plist.in; sourceTree = "<group>"; };
+		183916AF9253C77F4752758D /* .travis.yml */ = {isa = PBXFileReference; lastKnownFileType = file.yml; path = .travis.yml; sourceTree = "<group>"; };
 		183916F959277957CE9CC032 /* Info-gnustep.plist.in */ = {isa = PBXFileReference; lastKnownFileType = file.in; path = "Info-gnustep.plist.in"; sourceTree = "<group>"; };
 		37273DAE1DFDFD4C00FD6A63 /* PSX.hopperLoader */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSX.hopperLoader; sourceTree = BUILT_PRODUCTS_DIR; };
 		37273DB11DFDFD4C00FD6A63 /* PSXLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSXLoader.h; sourceTree = "<group>"; };
@@ -39,6 +41,7 @@
 				37273DAF1DFDFD4C00FD6A63 /* Products */,
 				183916F959277957CE9CC032 /* Info-gnustep.plist.in */,
 				183913A65608E57242590AC2 /* Info.plist.in */,
+				183916AF9253C77F4752758D /* .travis.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -120,6 +123,7 @@
 			files = (
 				183913410E42E8A6E6F26ACA /* Info-gnustep.plist.in in Resources */,
 				18391364630FDE0E8D599C7E /* Info.plist.in in Resources */,
+				18391B9924A156C4C7023766 /* .travis.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
