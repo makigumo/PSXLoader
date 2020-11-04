@@ -44,7 +44,7 @@
 }
 
 - (NSString *)pluginCopyright {
-    return @"©2016-2019 - Makigumo";
+    return @"©2016-2020 - Makigumo";
 }
 
 - (NSString *)pluginVersion {
@@ -224,19 +224,30 @@
     return DIS_OK;
 }
 
-- (void)fixupRebasedFile:(NSObject <HPDisassembledFile> *)file withSlide:(int64_t)slide originalFileData:(NSData *)fileData {
+- (void)fixupRebasedFile:(NSObject <HPDisassembledFile> *)file
+               withSlide:(int64_t)slide
+        originalFileData:(NSData *)fileData {
 
 }
 
-- (FileLoaderLoadingStatus)loadDebugData:(NSData *)data forFile:(NSObject <HPDisassembledFile> *)file usingCallback:(FileLoadingCallbackInfo)callback {
+- (FileLoaderLoadingStatus)loadDebugData:(NSData *)data
+                                 forFile:(NSObject <HPDisassembledFile> *)file
+                           usingCallback:(FileLoadingCallbackInfo)callback {
     return DIS_NotSupported;
 }
 
-- (NSData *)extractFromData:(NSData *)data
-      usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
-         returnAdjustOffset:(uint64_t *)adjustOffset
-       returnAdjustFilename:(NSString **)newFilename {
+- (nullable NSData *)extractFromData:(NSData *)data
+               usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
+                    originalFileName:(NSString *)filename
+                  returnAdjustOffset:(uint64_t *)adjustOffset
+                returnAdjustFilename:(__autoreleasing NSString **)newFilename {
     return nil;
+}
+
+- (void)setupFile:(NSObject <HPDisassembledFile> *)file
+afterExtractionOf:(NSString *)filename
+             type:(NSObject <HPDetectedFileType> *)fileType {
+
 }
 
 
