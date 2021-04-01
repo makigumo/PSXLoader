@@ -44,14 +44,14 @@
 }
 
 - (NSString *)pluginCopyright {
-    return @"©2016-2020 - Makigumo";
+    return @"©2016-2021 - Makigumo";
 }
 
 - (NSString *)pluginVersion {
-    return @"0.0.3";
+    return @"0.0.4";
 }
 
-- (nonnull NSArray<NSString *> *)commandLineIdentifiers {
+- (NSArray<NSString *> *)commandLineIdentifiers {
     return @[@"psx"];
 }
 
@@ -61,11 +61,12 @@
 }
 
 // Returns an array of DetectedFileType objects.
-- (NSArray <HPDetectedFileType> *)detectedTypesForData:(NSData *)data
+- (NSArray <HPDetectedFileType> *)detectedTypesForData:(const void *)data
+                                                length:(size_t)length
                                            ofFileNamed:(NSString *)filename {
-    if ([data length] < 4) return (NSArray <HPDetectedFileType> *) @[];
+    if (length < 4) return (NSArray <HPDetectedFileType> *) @[];
 
-    const void *bytes = [data bytes];
+    const void *bytes = data;
     if (strncmp((const char *) bytes, HEADER_MAGIC_PSX, 8) == 0 ||
             strncmp((const char *) bytes, HEADER_MAGIC_SCE, 7) == 0) {
         NSObject <HPDetectedFileType> *type = [_services detectedType];
@@ -81,12 +82,13 @@
     return (NSArray <HPDetectedFileType> *) @[];
 }
 
-- (FileLoaderLoadingStatus)loadData:(NSData *)data
+- (FileLoaderLoadingStatus)loadData:(const void *)data
+                             length:(size_t)length
               usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
                             options:(FileLoaderOptions)options
                             forFile:(NSObject <HPDisassembledFile> *)file
                       usingCallback:(FileLoadingCallbackInfo)callback {
-    const void *bytes = [data bytes];
+    const void *bytes = data;
     const PsxHeader *header = (PsxHeader *) bytes;
     if (strncmp((const char *) header->psx.id, HEADER_MAGIC_PSX, 8) == 0) {
         callback(@"Creating segments", 0.3);
@@ -226,17 +228,20 @@
 
 - (void)fixupRebasedFile:(NSObject <HPDisassembledFile> *)file
                withSlide:(int64_t)slide
-        originalFileData:(NSData *)fileData {
+        originalFileData:(const void *)fileData
+                  length:(size_t)length {
 
 }
 
-- (FileLoaderLoadingStatus)loadDebugData:(NSData *)data
+- (FileLoaderLoadingStatus)loadDebugData:(const void *)data
+                                  length:(size_t)length
                                  forFile:(NSObject <HPDisassembledFile> *)file
                            usingCallback:(FileLoadingCallbackInfo)callback {
     return DIS_NotSupported;
 }
 
-- (nullable NSData *)extractFromData:(NSData *)data
+- (nullable NSData *)extractFromData:(const void *)data
+                              length:(size_t)length
                usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
                     originalFileName:(NSString *)filename
                   returnAdjustOffset:(uint64_t *)adjustOffset

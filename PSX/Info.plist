@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2016-2020年 Makigumo. All rights reserved.</string>
+	<string>Copyright © 2016-2021年 Makigumo. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>PSXLoader</string>
 </dict>
