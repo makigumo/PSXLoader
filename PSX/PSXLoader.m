@@ -61,12 +61,11 @@
 }
 
 // Returns an array of DetectedFileType objects.
-- (NSArray <HPDetectedFileType> *)detectedTypesForData:(const void *)data
+- (NSArray <HPDetectedFileType> *)detectedTypesForData:(nonnull const void *)bytes
                                                 length:(size_t)length
-                                           ofFileNamed:(NSString *)filename {
+                                           ofFileNamed:(nullable NSString *)filename {
     if (length < 4) return (NSArray <HPDetectedFileType> *) @[];
 
-    const void *bytes = data;
     if (strncmp((const char *) bytes, HEADER_MAGIC_PSX, 8) == 0 ||
             strncmp((const char *) bytes, HEADER_MAGIC_SCE, 7) == 0) {
         NSObject <HPDetectedFileType> *type = [_services detectedType];
@@ -82,13 +81,12 @@
     return (NSArray <HPDetectedFileType> *) @[];
 }
 
-- (FileLoaderLoadingStatus)loadData:(const void *)data
+- (FileLoaderLoadingStatus)loadData:(nonnull const void *)bytes
                              length:(size_t)length
-              usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
+              usingDetectedFileType:(nonnull NSObject <HPDetectedFileType> *)fileType
                             options:(FileLoaderOptions)options
-                            forFile:(NSObject <HPDisassembledFile> *)file
-                      usingCallback:(FileLoadingCallbackInfo)callback {
-    const void *bytes = data;
+                            forFile:(nonnull NSObject <HPDisassembledFile> *)file
+                      usingCallback:(nullable FileLoadingCallbackInfo)callback {
     const PsxHeader *header = (PsxHeader *) bytes;
     if (strncmp((const char *) header->psx.id, HEADER_MAGIC_PSX, 8) == 0) {
         callback(@"Creating segments", 0.3);
@@ -226,26 +224,26 @@
     return DIS_OK;
 }
 
-- (void)fixupRebasedFile:(NSObject <HPDisassembledFile> *)file
+- (void)fixupRebasedFile:(nonnull NSObject <HPDisassembledFile> *)file
                withSlide:(int64_t)slide
-        originalFileData:(const void *)fileData
+        originalFileData:(nonnull const void *)fileBytes
                   length:(size_t)length {
 
 }
 
-- (FileLoaderLoadingStatus)loadDebugData:(const void *)data
+- (FileLoaderLoadingStatus)loadDebugData:(const void *)bytes
                                   length:(size_t)length
                                  forFile:(NSObject <HPDisassembledFile> *)file
-                           usingCallback:(FileLoadingCallbackInfo)callback {
+                           usingCallback:(nullable FileLoadingCallbackInfo)callback {
     return DIS_NotSupported;
 }
 
-- (nullable NSData *)extractFromData:(const void *)data
+- (nullable NSData *)extractFromData:(nonnull const void *)data
                               length:(size_t)length
-               usingDetectedFileType:(NSObject <HPDetectedFileType> *)fileType
-                    originalFileName:(NSString *)filename
-                  returnAdjustOffset:(uint64_t *)adjustOffset
-                returnAdjustFilename:(__autoreleasing NSString **)newFilename {
+               usingDetectedFileType:(nonnull NSObject <HPDetectedFileType> *)fileType
+                    originalFileName:(nullable NSString *)filename
+                  returnAdjustOffset:(nullable uint64_t *)adjustOffset
+                returnAdjustFilename:(NSString *_Nullable __autoreleasing *_Nullable)newFilename {
     return nil;
 }
 
