@@ -20,7 +20,7 @@ jobs:
       - name: Run Xcode - ${{ matrix.os }} / ${{ matrix.arch }}
         if: ${{ matrix.type == 'xcode' }}
         run: |
-          xcodebuild -project XfileLoader.xcodeproj -scheme XfileLoader -arch ${{ matrix.arch }} -configuration Release build
+          xcodebuild -project PSX.xcodeproj -scheme PSX -arch ${{ matrix.arch }} -configuration Release build
 
       - name: Run CMake - ${{ matrix.os }} / ${{ matrix.arch }}
         if: ${{ matrix.type == 'cmake' }}
