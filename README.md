@@ -1,6 +1,6 @@
 # A PSX Loader plugin for Hopper Disassembler
 
-[![Build Status](https://travis-ci.com/makigumo/PSXLoader.svg?branch=master)](https://travis-ci.com/makigumo/PSXLoader)
+[![build](https://github.com/makigumo/PSXLoader/actions/workflows/build.yml/badge.svg)](https://github.com/makigumo/PSXLoader/actions/workflows/build.yml)
 
 A basic loader plugin for PSX executables.
 It will try to identify bios calls and add some io mapping information.
